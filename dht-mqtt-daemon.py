@@ -143,6 +143,15 @@ if reporting_mode == 'homeassistant-mqtt':
     payload['value_template'] = "{{ value_json.temperature }}"
     payload['name'] = "{} Temperature".format(sensor_name)
     payload['device_class'] = 'temperature'
+    payload['unique_id']= "{}_t".format(sensor_name)
+    payload['expire_after'] = "{}".format(2*sleep_period)
+    deviceDetails = dict()
+    deviceDetails['identifiers'] = "{}".format(sensor_name)
+    deviceDetails['name'] = "{}".format(sensor_name)
+    deviceDetails['model'] = 'Raspberry Pi'
+    deviceDetails['manufacturer'] = 'DIY'
+    payload['device'] = deviceDetails
+    print_line('Publishing to MQTT topic "{}/{}_temperature/config"'.format(topic_path, sensor_name).lower())
     mqtt_client.publish('{}/{}_temperature/config'.format(topic_path, sensor_name).lower(), json.dumps(payload), 1, True)
     # Humidity
     payload = dict(base_payload.items())
@@ -150,6 +159,15 @@ if reporting_mode == 'homeassistant-mqtt':
     payload['value_template'] = "{{ value_json.humidity }}"
     payload['name'] = "{} Humidity".format(sensor_name)
     payload['device_class'] = 'humidity'
+    payload['unique_id']= "{}_h".format(sensor_name)
+    payload['expire_after'] = "{}".format(2*sleep_period)
+    deviceDetails = dict()
+    deviceDetails['identifiers'] = "{}".format(sensor_name)
+    deviceDetails['name'] = "{}".format(sensor_name)
+    deviceDetails['model'] = 'Raspberry Pi'
+    deviceDetails['manufacturer'] = 'DIY'
+    payload['device'] = deviceDetails
+    print_line('Publishing to MQTT topic "{}/{}_humidity/config"'.format(topic_path, sensor_name).lower())
     mqtt_client.publish('{}/{}_humidity/config'.format(topic_path, sensor_name).lower(), json.dumps(payload), 1, True)
 
 # Sensor data retrieval and publication
